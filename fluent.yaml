@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: nag-image
+  name: fluentd-daemonset
   namespace: sai
 spec:
   selector:

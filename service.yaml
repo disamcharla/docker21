@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: new-docker-app
+  name: nag-image
   namespace: sai
 spec:
   selector:
-    app: new-docker-app
+    app: nag-image
   type : LoadBalancer
   ports:
     - protocol: TCP

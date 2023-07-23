@@ -6,67 +6,49 @@ metadata:
   labels:
     app: nag-image
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: nag-image
-  replicas: 2
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
     type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
   template:
     metadata:
       labels:
         app: nag-image
     spec:
-      # initContainers:
-        # Init containers are exactly like regular containers, except:
-          # - Init containers always run to completion.
-          # - Each init container must complete successfully before the next one starts.
+      initContainers:
+      - name: init-setup
+        image: busybox:latest
+        command: ['sh', '-c', 'ls; pwd; sleep 10']
+        envFrom:
+        - configMapRef:
+            name: nag-image
       containers:
       - name: nag-image
-        image: nagendradisamcharla/docker21-dotnet6:latest
-        imagePullSecrets:
-          - name: acr-alex
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 100m
-            memory: 100Mi
+        image: munna2218.azurecr.io/nag-image:1.0.3
+        ports:
+        - containerPort: 5000
         livenessProbe:
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 5
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 3
-          periodSeconds: 10
-        readinessProbe:
           httpGet:
             path: /_status/healthz
-            port: 80
-          initialDelaySeconds: 5
-          timeoutSeconds: 2
-          successThreshold: 1
-          failureThreshold: 3
+            port: 5000   # Corrected port to match the containerPort
+          initialDelaySeconds: 8
           periodSeconds: 10
+          failureThreshold: 3  # Corrected field name
+          successThreshold: 1  # Corrected field name
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 5000   # Corrected port to match the containerPort
+          initialDelaySeconds: 15
+          periodSeconds: 5
         env:
-        - name: DB_HOST
+        - name: nag-image
           valueFrom:
             configMapKeyRef:
-              name: MYAPP-config
               key: DB_HOST
-        ports:
-        - containerPort: 80
-          name: nag-image
-        volumeMounts:
-        - name: localtime
-          mountPath: /etc/localtime
-      volumes:
-        - name: localtime
-          hostPath:
-            path: /usr/share/zoneinfo/Asia/Shanghai
-      restartPolicy: Always
+              name: nag-image

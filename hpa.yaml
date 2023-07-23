@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: nag-image-hpa
+  name: nag-image
   namespace: sai
 spec:
   scaleTargetRef:
@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name: nag-image
   minReplicas: 1
-  maxReplicas: 11
+  maxReplicas: 10
   metrics:
   - type: Resource
     resource:

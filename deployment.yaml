@@ -20,35 +20,37 @@ spec:
       labels:
         app: nag-image
     spec:
-      initContainers:
-      - name: init-setup
-        image: busybox:latest
-        command: ['sh', '-c', 'ls; pwd; sleep 10']
-        envFrom:
-        - configMapRef:
-            name: nag-image
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: env
+                    operator: In
+                    values:
+                      - production
       containers:
-      - name: nag-image
-        image: nagendradisamcharla/docker21-dotnet6:latest
-        ports:
-        - containerPort: 5000
-        livenessProbe:
-          httpGet:
-            path: /_status/healthz
-            port: 5000   # Corrected port to match the containerPort
-          initialDelaySeconds: 8
-          periodSeconds: 10
-          failureThreshold: 3  # Corrected field name
-          successThreshold: 1  # Corrected field name
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 5000   # Corrected port to match the containerPort
-          initialDelaySeconds: 15
-          periodSeconds: 5
-        env:
         - name: nag-image
-          valueFrom:
-            configMapKeyRef:
-              key: DB_HOST
-              name: nag-image
+          image: nagendradisamcharla/docker21-dotnet6:latest
+          ports:
+            - containerPort: 5000
+          livenessProbe:
+            httpGet:
+              path: /_status/healthz
+              port: 5000
+            initialDelaySeconds: 8
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: nag-image
+                  key: DB_HOST

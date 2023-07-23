@@ -29,7 +29,7 @@ spec:
             name: nag-image
       containers:
       - name: nag-image
-        image: munna2218.azurecr.io/nag-image:1.0.3
+        image: munna2218.azurecr.io/nag-image:latest
         ports:
         - containerPort: 5000
         livenessProbe:

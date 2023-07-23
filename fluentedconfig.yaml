@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nag-image
+  name: fluentd-config
   namespace: sai
 data:
   fluent.conf: |

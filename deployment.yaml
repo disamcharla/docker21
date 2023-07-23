@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: MYAPP
+  name: nag-image
   namespace: sai
   labels:
-    app: MYAPP
+    app: nag-image
 spec:
   selector:
     matchLabels:
-      app: MYAPP
+      app: nag-image
   replicas: 2
   strategy:
     rollingUpdate:
@@ -18,15 +18,15 @@ spec:
   template:
     metadata:
       labels:
-        app: MYAPP
+        app: nag-image
     spec:
       # initContainers:
         # Init containers are exactly like regular containers, except:
           # - Init containers always run to completion.
           # - Each init container must complete successfully before the next one starts.
       containers:
-      - name: MYAPP
-        image: munna2218.azurecr.io/munna2218:1.0.3
+      - name: nag-image
+        image: munna2218.azurecr.io/nag-image:1.0.3
         imagePullSecrets:
           - name: acr-alex
         resources:
@@ -61,7 +61,7 @@ spec:
               key: DB_HOST
         ports:
         - containerPort: 80
-          name: MYAPP
+          name: nag-image
         volumeMounts:
         - name: localtime
           mountPath: /etc/localtime

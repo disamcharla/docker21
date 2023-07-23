@@ -29,7 +29,7 @@ spec:
             name: nag-image
       containers:
       - name: nag-image
-        image: munna2218.azurecr.io/nag-image:latest
+        image:nagendradisamcharla/docker21-dotnet6:latest
         ports:
         - containerPort: 5000
         livenessProbe:

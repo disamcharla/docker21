@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:  MYAPP
-  namespace: kube21
+  namespace: sai
   labels:
     app:  MYAPP
 spec:
@@ -28,7 +28,7 @@ spec:
       imagePullSecrets:
            - name: acr-alex
       - name:  MYAPP
-        image: naga1919.azurecr.io/naga1919:1.0.2
+        image: munna2218.azurecr.io/munna2218:1.0.3
 
         resources:
           requests:
@@ -58,7 +58,7 @@ spec:
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
-              name: MYAPP
+              name: MYAPP-config
               key: DB_HOST
         ports:
         - containerPort:  80

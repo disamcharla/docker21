@@ -26,7 +26,7 @@ spec:
           # - Each init container must complete successfully before the next one starts.
       containers:
       - name: nag-image
-        image: munna2218.azurecr.io/nag-image:1.0.3
+        image: nagendradisamcharla/docker21-dotnet6:latest
         imagePullSecrets:
           - name: acr-alex
         resources:

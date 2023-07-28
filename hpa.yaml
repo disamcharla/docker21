@@ -1,13 +1,13 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: nag-image
-  namespace: sai
+  name: docker21-dotnet6
+  namespace: naga111
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: nag-image
+    name: docker21-dotnet6
   minReplicas: 1
   maxReplicas: 10
   metrics:

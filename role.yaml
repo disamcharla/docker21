@@ -1,8 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: nag-image
-  namespace: sai
+  name: docker21-dotnet6
+  namespace: naga111
 rules:
 - apiGroups: ["apps"]
   resources: ["deployments"]

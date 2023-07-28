@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: fluentd
-          image: nagendradisamcharla/docker21-dotnet6:latest
+          image: naga1998.azurecr.io/docker21-dotnet6:latest
           ports:
             - containerPort: 24224
               name: fluentd

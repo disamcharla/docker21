@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nag-image
-  namespace: sai
+  namespace: naga111
 data:
   DB_HOST: key
   # Add other configuration key-value pairs as needed

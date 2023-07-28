@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nag-image
-  namespace: sai
+  name: docker21-dotnet6-deployment
+  namespace: naga111
   labels:
-    app: nag-image
+    app: docker21-dotnet6
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nag-image
+      app: docker21-dotnet6
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,19 +18,28 @@ spec:
   template:
     metadata:
       labels:
-        app: nag-image
+        app: docker21-dotnet6
     spec:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: env
+                  - key: environment
                     operator: In
                     values:
                       - production
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - docker21-dotnet6
+              topologyKey: "kubernetes.io/hostname"
       containers:
-        - name: nag-image
+        - name: docker21-dotnet6
           image: nagendradisamcharla/docker21-dotnet6:latest
           ports:
             - containerPort: 5000
@@ -52,5 +61,5 @@ spec:
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: nag-image
+                  name: docker21-dotnet6-deployment
                   key: DB_HOST

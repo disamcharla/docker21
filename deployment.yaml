@@ -40,7 +40,7 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       containers:
         - name: docker21-dotnet6
-          image: naga1998.azurecr.io/docker21-dotnet6:latest
+          image: manishthota25/mani:latest
           ports:
             - containerPort: 5000
           livenessProbe:
